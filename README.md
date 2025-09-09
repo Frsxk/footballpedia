@@ -5,10 +5,10 @@ Tautan ke aplikasi PWS:
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
 #### Membuat sebuah proyek Django baru.
-Langkah-langkah untuk membuat proyek Django baru sangat *straigtforward*. Diawali dengan membuat folder baru, untuk proyek saya diberi nama 'footballpedia'. Aktifkan python virtual environment dengan perintah `python -m venv env`  kemudian `env\Scripts\activate`. Buat folder 'requirements.txt' yang berisi *dependencies* yang perlu di-instal. Lakukan penginstalan dengan menjalankan perintah `pip install -r requirements.txt`. Langkah terakhir adalah membuat proyek Django dengan perintah `django-admin startproject footballpedia .` dengan 'footballpedia' adalah nama proyek saya.
+Langkah-langkah untuk membuat proyek Django baru sangat *straigtforward*. Diawali dengan membuat folder baru, untuk proyek saya diberi nama 'footballpedia'. Aktifkan python virtual environment dengan perintah `python -m venv env`  kemudian `env\Scripts\activate`. Buat folder 'requirements.txt' yang berisi *dependencies* yang perlu di-instal. Lakukan penginstalan dengan menjalankan perintah `pip install -r requirements.txt`. Langkah selanjutnya adalah membuat proyek Django dengan perintah `django-admin startproject footballpedia .` dengan 'footballpedia' adalah nama proyek saya. Tambahkan environment variable di file `.env` dan `.env.prod` untuk produksi. Modifikasi file `settings.py` dengan menambahkan kode untuk membaca file `.env`. Tambahkan konfigurasi di `settings.py` untuk production. Ubah pula pengaturan untuk konfigurasi database agar menggunakan data dari `.env.prod` di mode production dan menggunakan database SQLite biasa untuk development. Pembuatan proyek Django baru selesai.
 
 #### Membuat aplikasi dengan nama main pada proyek tersebut.
-
+Langkah awal untuk membuat aplikasi dengan nama main adalah mengaktifkan python virtual environment terlebih dahulu (perintah ada di checklist sebelumnya), kemudian menjalankan perintah `python manage.py startapp main` di folder utama. Tambahkan `'main'` ke dalam installed_apps di `settings.py` pada folder footballpedia. Pembuatan aplikasi dengan nama main selesai.
 
 #### Melakukan routing pada proyek agar dapat menjalankan aplikasi main.
 
