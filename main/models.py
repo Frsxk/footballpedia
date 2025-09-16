@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 
-class News(models.Model):
+class Shop(models.Model):
     CATEGORY_CHOICES = [
         ('footwear', 'Footwear'),
         ('jersey', 'Jersey'),

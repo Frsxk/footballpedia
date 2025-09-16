@@ -1,16 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugas 2 PBP</title>
-</head>
-<body>
-    <h5>Nama Aplikasi:</h1>
-    <p>{{ application_name }}</p>
-    <h5>Nama:</h1>
-    <p>{{ name }}</p>
-    <h5>Kelas:</h1>
-    <p>{{ class }}</p>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+
+<h5>Nama Aplikasi:</h1>
+<p>{{ application_name }}</p>
+<h5>Nama:</h1>
+<p>{{ name }}</p>
+<h5>Kelas:</h1>
+<p>{{ class }}</p>
+
+<a href="{% url 'main:create_shop' %}">
+    <button>+ Add Product</button>
+</a>
+
+<hr>
+
+{% if not shop_list %}
+<p>Belum ada produk yang ditambahkan.</p>
+{% else %}
+
+{% for shop in shop_list %}
+<div>
+    <a href="{% url 'main:show_shop' shop.id %}">
+        <h2>{{ shop.name }}</h3>
+    </a>
+
+    <p><b>{{ shop.get_category_display }}</b>{% if shop.is_featured %} | 
+    <b>Featured</b>{% endif %} | Rating: {{ shop.rating }}</p>
+    <hr>
+
+    {% if shop.thumnail %}
+    <img src="{{ shop.thumnail }}" alt="Thumbnail" width="150px" height-auto>
+    <br />
+    {% endif %}
+
+    <p>{{ shop.description|truncatewords:25 }}...</p>
+
+    <p><a href="{% url 'main:show_shop' shop.id %}"><button>Buy now</button></a></p>
+</div>
+<hr>
+{% endfor %}
+{% endif %}
+{% endblock content %}
