@@ -9,6 +9,6 @@ urlpatterns = [
     path('shop/<str:id>/', show_shop, name='show_shop'),
     path('xml/', show_xml, name='show_xml'),
     path('json/', show_json, name='show_json'),
-    path('xml/<str:shop_id>/', show_xml_by_id, name='show_xml_by_id'),
-    path('json/<str:shop_id>/', show_json_by_id, name='show_json_by_id'),
+    path('xml/<uuid:shop_id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<uuid:shop_id>/', show_json_by_id, name='show_json_by_id'),
 ]

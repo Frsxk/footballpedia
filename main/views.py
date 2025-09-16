@@ -56,7 +56,7 @@ def show_xml_by_id(request, shop_id):
 def show_json_by_id(request, shop_id):
     try:
         shop_item = Shop.objects.filter(pk=shop_id)
-        json_data = serializers.serialize("json", [shop_item])
+        json_data = serializers.serialize("json", shop_item)
         return HttpResponse(json_data, content_type="application/json")
     except Shop.DoesNotExist:
         return HttpResponse(status=404)

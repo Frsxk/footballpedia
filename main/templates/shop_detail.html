@@ -5,7 +5,7 @@
 
 <h1>{{ shop.name }}</h1>
 <p><b>{{ shop.get_category_display }}</b>{% if shop.is_featured %} | 
-    <b>Featured</b>{% endif %} | Rating: {{ shop.rating }}</p>
+    <b>Featured</b>{% endif %} | Rating: {{ shop.rating }} ⭐ | {{ shop.quantity }} sold</p>
 
 {% if shop.thumbnail %}
 <img src="{{ shop.thumbnail }}" alt="shop thumbnail" width="300">
