@@ -1,6 +1,10 @@
 {% extends "base.html" %}
-{% block content %}
 
+{% block meta %}
+<title>Footballpedia</title>
+{% endblock meta %}
+
+{% block content %}
 <h5>Nama Aplikasi:</h1>
 <p>{{ application_name }}</p>
 <h5>Nama:</h1>
@@ -15,6 +19,7 @@
   <button>Logout</button>
 </a>
 
+<h5>User saat ini: {{ current_user.username }}</h5>
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 <hr>
 
@@ -45,6 +50,7 @@
     {% endif %}
 
     <p>{{ product.description|truncatewords:25 }}...</p>
+    <P>Rp {{ product.price }}</p>
 
     <p><a href="{% url 'main:show_product' product.id %}"><button>See Details</button></a></p>
 </div>

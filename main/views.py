@@ -20,14 +20,13 @@ def show_main(request):
     else:
         product_list = Product.objects.filter(user=request.user)
 
-    product_list = Product.objects.all()
-
     context = {
         'application_name' : 'Footballpedia',
         'name': 'Muhammad Faza Al-Banna',
         'class': 'PBP A',
         'product_list': product_list,
-        'last_login': request.COOKIES.get('last_login', 'Never')
+        'last_login': request.COOKIES.get('last_login', 'Never'),
+        'current_user': request.user,
     }
 
     return render(request, "main.html", context)

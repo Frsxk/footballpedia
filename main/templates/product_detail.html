@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block meta %}
+<title>{{ product.name }} | Footballpedia</title>
+{% endblock meta %}
+
 {% block content %}
 
 <p><a href="{% url 'main:show_main' %}"><button>← Back to Product List</button></a></p>
