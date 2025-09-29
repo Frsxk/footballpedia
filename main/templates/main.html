@@ -5,6 +5,7 @@
 {% endblock meta %}
 
 {% block content %}
+{% include "navbar.html" %}
 <h5>Nama Aplikasi:</h1>
 <p>{{ application_name }}</p>
 <h5>Nama:</h1>
@@ -52,7 +53,22 @@
     <p>{{ product.description|truncatewords:25 }}...</p>
     <P>Rp {{ product.price }}</p>
 
-    <p><a href="{% url 'main:show_product' product.id %}"><button>See Details</button></a></p>
+    <p>
+        <a href="{% url 'main:show_product' product.id %}"><button>See Details</button></a>
+        
+        {% if user.is_authenticated and product.user == user %}
+        <a href="{% url 'main:edit_product' product.pk %}">
+            <button>
+                Edit
+            </button>
+        </a>
+        <a href="{% url 'main:delete_news' news.pk %}">
+            <button>
+                Delete
+            </button>
+        </a>
+        {% endif %}
+    </p>
 </div>
 <hr>
 {% endfor %}
