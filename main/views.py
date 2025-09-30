@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.core import serializers
-from main.forms import ShopForm
-from main.models import Shop
+from main.forms import ShopForm, BolaForm
+from main.models import Shop, Bola
 
 # Create your views here.
 def show_main(request):
@@ -60,3 +60,15 @@ def show_json_by_id(request, shop_id):
         return HttpResponse(json_data, content_type="application/json")
     except Shop.DoesNotExist:
         return HttpResponse(status=404)
+
+def show_bola(request):
+    form = BolaForm(request.POST)
+
+    if form.is_valid() and request.method == "POST":
+        merek = form.cleaned_data['merek']
+        stock = form.cleaned_data['stock']
+
+        Bola.objects.create(merek=merek, stock=stock)
+        return redirect('main:show_main')
+    
+    return render(request, 'bola.html', {'form': form})

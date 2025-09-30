@@ -24,3 +24,6 @@ class Shop(models.Model):
     def __str__(self):
         return self.name
 
+class Bola(models.Model):
+    merek = models.CharField(max_length=50)
+    stock = models.IntegerField()
