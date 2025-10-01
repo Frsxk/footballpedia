@@ -1,76 +1,123 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block meta %}
-<title>Footballpedia</title>
+<title>Footballpedia - Your Football Equipment Store</title>
 {% endblock meta %}
 
 {% block content %}
 {% include "navbar.html" %}
-<h5>Nama Aplikasi:</h1>
-<p>{{ application_name }}</p>
-<h5>Nama:</h1>
-<p>{{ name }}</p>
-<h5>Kelas:</h1>
-<p>{{ class }}</p>
 
-<a href="{% url 'main:create_product' %}">
-    <button>+ Add Product</button>
-</a>
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>User saat ini: {{ current_user.username }}</h5>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<hr>
-
-<a href="?filter=all">
-    <button type="button">All Products</button>
-</a>
-<a href="?filter=my">
-    <button type="button">My Products</button>
-</a> 
-<hr>
-
-{% if not product_list %}
-<p>Belum ada produk yang ditambahkan.</p>
-{% else %}
-
-{% for product in product_list %}
-<div>
-    <a href="{% url 'main:show_product' product.id %}">
-        <h2>{{ product.name }}</h2>
-    </a>
-
-    <p><b>{{ product.get_category_display }}</b>{% if product.is_featured %} | 
-    <b>Featured</b>{% endif %} | Rating: {{ product.rating }} ⭐ | {{ product.quantity }} sold</p>
-
-    {% if product.thumbnail %}
-    <img src="{{ product.thumbnail }}" alt="Thumbnail" width="150px" height-auto>
-    <br />
-    {% endif %}
-
-    <p>{{ product.description|truncatewords:25 }}...</p>
-    <P>Rp {{ product.price }}</p>
-
-    <p>
-        <a href="{% url 'main:show_product' product.id %}"><button>See Details</button></a>
-        
-        {% if user.is_authenticated and product.user == user %}
-        <a href="{% url 'main:edit_product' product.pk %}">
-            <button>
-                Edit
-            </button>
-        </a>
-        <a href="{% url 'main:delete_news' news.pk %}">
-            <button>
-                Delete
-            </button>
-        </a>
-        {% endif %}
-    </p>
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-green-500 to-green-600 text-white py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">⚽ {{ application_name }}</h1>
+      <p class="text-xl md:text-2xl mb-8">Your Ultimate Football Equipment Store</p>
+      <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 max-w-md mx-auto">
+        <p class="text-lg"><span class="font-semibold">Welcome,</span> {{ current_user.username }}</p>
+        <p class="text-sm opacity-90">Last login: {{ last_login | slice:":16" }}</p>
+      </div>
+    </div>
+  </div>
 </div>
-<hr>
-{% endfor %}
-{% endif %}
+
+<!-- Action Buttons -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+    <a href="{% url 'main:create_product' %}" class="btn-football text-white px-6 py-3 rounded-lg font-semibold text-center hover:shadow-lg transition-all">
+      ➕ Add New Product
+    </a>
+    <div class="flex gap-2">
+      <a href="?filter=all" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg font-medium transition-colors">
+        All Products
+      </a>
+      <a href="?filter=my" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg font-medium transition-colors">
+        My Products
+      </a>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  {% if not product_list %}
+  <div class="text-center py-16">
+    <div class="max-w-md mx-auto">
+      <div class="mb-6">
+        <img src="{% static 'image/no-product.png' %}" alt="No products" class="w-32 h-32 mx-auto">
+      </div>
+      <h3 class="text-2xl font-bold text-gray-700 mb-4">No Products Yet</h3>
+      <p class="text-gray-500 mb-8">Be the first to add football equipment to our store!</p>
+      <a href="{% url 'main:create_product' %}" class="btn-football text-white px-8 py-4 rounded-lg font-semibold inline-block">
+        Add First Product
+      </a>
+    </div>
+  </div>
+  {% else %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for product in product_list %}
+    <div class="bg-white rounded-xl shadow-md card-hover overflow-hidden">
+      <!-- Product Image -->
+      <div class="h-48 bg-gray-100 relative overflow-hidden">
+        {% if product.thumbnail %}
+        <img src="{{ product.thumbnail }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+        {% else %}
+        <div class="w-full h-full flex items-center justify-center text-6xl text-gray-400">
+          ⚽
+        </div>
+        {% endif %}
+        {% if product.is_featured %}
+        <div class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold">
+          ⭐ Featured
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Product Info -->
+      <div class="p-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+            {{ product.get_category_display }}
+          </span>
+          <div class="flex items-center text-sm text-gray-600">
+            <span class="text-yellow-500">⭐</span>
+            <span class="ml-1">{{ product.rating }}</span>
+          </div>
+        </div>
+        
+        <h3 class="font-bold text-lg text-gray-800 mb-2 line-clamp-2">
+          <a href="{% url 'main:show_product' product.id %}" class="hover:text-green-600 transition-colors">
+            {{ product.name }}
+          </a>
+        </h3>
+        
+        <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+          {{ product.description|truncatewords:15 }}
+        </p>
+        
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-2xl font-bold text-green-600">Rp {{ product.price|floatformat:0 }}</span>
+          <span class="text-sm text-gray-500">{{ product.quantity }} sold</span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+          <a href="{% url 'main:show_product' product.id %}" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg text-sm font-medium text-center transition-colors">
+            View Details
+          </a>
+          
+          {% if user.is_authenticated and product.user == user %}
+          <a href="{% url 'main:edit_product' product.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors">
+            ✏️
+          </a>
+          <a href="{% url 'main:delete_product' product.pk %}" class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors" onclick="return confirm('Are you sure you want to delete this product?')">
+            🗑️
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
 {% endblock content %}

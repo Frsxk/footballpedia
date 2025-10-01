@@ -23,6 +23,7 @@ def show_main(request):
     context = {
         'application_name' : 'Footballpedia',
         'name': 'Muhammad Faza Al-Banna',
+        'npm' : '2406496082',
         'class': 'PBP A',
         'product_list': product_list,
         'last_login': request.COOKIES.get('last_login', 'Never'),
@@ -40,7 +41,14 @@ def create_product(request):
         product_entry.save()
         return redirect('main:show_main')
     
-    return render(request, 'create_product.html', {'form': form})
+    context = {
+        'form': form,
+        'name': 'Muhammad Faza Al-Banna',
+        'npm' : '2406496082',
+        'class': 'PBP A',
+    }
+    
+    return render(request, 'create_product.html', context)
 
 @login_required(login_url='/login/')
 def show_product(request, id):
@@ -119,7 +127,10 @@ def edit_product(request, id):
         return redirect('main:show_main')
 
     context = {
-        'form': form
+        'form': form,
+        'name': 'Muhammad Faza Al-Banna',
+        'npm' : '2406496082',
+        'class': 'PBP A',
     }
 
     return render(request, "edit_product.html", context)

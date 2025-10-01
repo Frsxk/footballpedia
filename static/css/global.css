@@ -1,13 +1,50 @@
+:root {
+  --football-green: #16a34a;
+  --football-dark: #1f2937;
+  --football-light: #f8fafc;
+}
+
+body {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  min-height: 100vh;
+}
+
+.football-gradient {
+  background: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+}
+
 .form-style form input, form textarea, form select {
     width: 100%;
-    padding: 0.5rem;
-    border: 2px solid #bcbcbc;
-    border-radius: 0.375rem;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
 .form-style form input:focus, form textarea:focus, form select:focus {
     outline: none;
     border-color: #16a34a;
-    box-shadow: 0 0 0 3px #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.form-style form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-style form select {
+    /* SVG yang menunjukkan panah ke bawah (v) */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    padding-right: 40px;
+    appearance: none;
 }
 
 .form-style input[type="checkbox"] {
@@ -44,4 +81,23 @@
     outline: none;
     border-color: #16a34a;
     box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.btn-football {
+  background: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-football:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(22, 163, 74, 0.3);
 }

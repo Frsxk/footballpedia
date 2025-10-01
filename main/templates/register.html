@@ -1,32 +1,82 @@
 {% extends 'base.html' %}
 
 {% block meta %}
-<title>Register</title>
+<title>Register - Footballpedia</title>
 {% endblock meta %}
 
 {% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+      <div class="text-6xl mb-4">⚽</div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Join Footballpedia!</h2>
+      <p class="text-gray-600">Create your account to start selling football equipment</p>
+    </div>
 
-<div>
-  <h1>Register</h1>
+    <!-- Register Form -->
+    <div class="bg-white rounded-xl shadow-lg p-8">
+      <form method="POST" class="form-style">
+        {% csrf_token %}
+        
+        <div class="space-y-6">
+          <div>
+            <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
+              Username
+            </label>
+            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Choose a username" required>
+            {% if form.username.help_text %}
+            <p class="text-xs text-gray-500 mt-2">{{ form.username.help_text }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="{{ form.password1.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
+              Password
+            </label>
+            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Create a strong password" required>
+            {% if form.password1.help_text %}
+            <p class="text-xs text-gray-500 mt-2">{{ form.password1.help_text }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="{{ form.password2.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
+              Confirm Password
+            </label>
+            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Confirm your password" required>
+            {% if form.password2.help_text %}
+            <p class="text-xs text-gray-500 mt-2">{{ form.password2.help_text }}</p>
+            {% endif %}
+          </div>
+          
+          <button type="submit" class="w-full btn-football text-white py-4 px-6 rounded-lg font-semibold text-lg hover:shadow-lg transition-all mt-8">
+            🎆 Create Account
+          </button>
+        </div>
+      </form>
 
-  <form method="POST">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input type="submit" name="submit" value="Daftar" /></td>
-      </tr>
-    </table>
-  </form>
+      <!-- Messages -->
+      {% if messages %}
+      <div class="mt-4 space-y-2">
+        {% for message in messages %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm">
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+      <!-- Login Link -->
+      <div class="mt-6 text-center">
+        <p class="text-gray-600">
+          Already have an account?
+          <a href="{% url 'main:login' %}" class="text-green-600 hover:text-green-700 font-medium transition-colors">
+            Sign In
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock content %}
