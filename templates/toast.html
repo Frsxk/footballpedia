@@ -1,11 +1,12 @@
 {% load static %}
 
-<div id="toast-component" class="">
-    <span id="toast-icon" class=""></span>
-
-    <div>
-        <h3 class="" id="toast-title">Sample Title</h3>
-        <p class="" id="toast-message">Sample Message</p>
+<div id="toast-component" class="fixed bottom-4 right-4 z-50 max-w-sm w-full bg-white border-l-4 rounded-lg shadow-lg p-4 opacity-0 translate-y-64 transition-all duration-300">
+    <div class="flex items-start">
+        <span id="toast-icon" class="flex-shrink-0 text-2xl mr-3">ℹ️</span>
+        <div class="flex-1">
+            <h3 class="font-semibold text-sm mb-1" id="toast-title">Sample Title</h3>
+            <p class="text-xs opacity-90" id="toast-message">Sample Message</p>
+        </div>
     </div>
 </div>
 

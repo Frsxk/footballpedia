@@ -24,8 +24,19 @@
             <label for="{{ form.username.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
               Username
             </label>
-            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Choose a username" required>
-            {% if form.username.help_text %}
+            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" class="w-full px-4 py-3 border-2 {% if form.username.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Choose a username" required>
+            {% if form.username.errors %}
+            <div class="mt-2 space-y-1">
+              {% for error in form.username.errors %}
+              <p class="text-sm text-red-600 flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ error }}
+              </p>
+              {% endfor %}
+            </div>
+            {% elif form.username.help_text %}
             <p class="text-xs text-gray-500 mt-2">{{ form.username.help_text }}</p>
             {% endif %}
           </div>
@@ -34,8 +45,19 @@
             <label for="{{ form.password1.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
               Password
             </label>
-            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Create a strong password" required>
-            {% if form.password1.help_text %}
+            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" class="w-full px-4 py-3 border-2 {% if form.password1.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Create a strong password" required>
+            {% if form.password1.errors %}
+            <div class="mt-2 space-y-1">
+              {% for error in form.password1.errors %}
+              <p class="text-sm text-red-600 flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ error }}
+              </p>
+              {% endfor %}
+            </div>
+            {% elif form.password1.help_text %}
             <p class="text-xs text-gray-500 mt-2">{{ form.password1.help_text }}</p>
             {% endif %}
           </div>
@@ -44,8 +66,19 @@
             <label for="{{ form.password2.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-3">
               Confirm Password
             </label>
-            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Confirm your password" required>
-            {% if form.password2.help_text %}
+            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" class="w-full px-4 py-3 border-2 {% if form.password2.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all" placeholder="Confirm your password" required>
+            {% if form.password2.errors %}
+            <div class="mt-2 space-y-1">
+              {% for error in form.password2.errors %}
+              <p class="text-sm text-red-600 flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ error }}
+              </p>
+              {% endfor %}
+            </div>
+            {% elif form.password2.help_text %}
             <p class="text-xs text-gray-500 mt-2">{{ form.password2.help_text }}</p>
             {% endif %}
           </div>
@@ -79,4 +112,14 @@
     </div>
   </div>
 </div>
+
+{% include "toast.html" %}
+
+<script>
+{% if messages %}
+  {% for message in messages %}
+    showToast('Registration', '{{ message }}', 'success');
+  {% endfor %}
+{% endif %}
+</script>
 {% endblock content %}

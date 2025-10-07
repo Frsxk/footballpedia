@@ -122,6 +122,7 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, f'Welcome back, {user.username}!')
             response = HttpResponseRedirect(reverse("main:show_main"))
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
@@ -132,7 +133,8 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    response = HttpResponseRedirect(reverse('main:show_main'))
+    messages.success(request, 'You have been logged out successfully.')
+    response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
 
@@ -160,18 +162,26 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    title = request.POST.get("title")
-    content = request.POST.get("content")
+    name = request.POST.get("name")
+    price = request.POST.get("price")
+    description = request.POST.get("description")
     category = request.POST.get("category")
     thumbnail = request.POST.get("thumbnail")
-    is_featured = request.POST.get("is_featured") == 'on'  # checkbox handling
+    quantity = request.POST.get("quantity")
+    size = request.POST.get("size")
+    rating = request.POST.get("rating")
+    is_featured = request.POST.get("is_featured") == 'on'
     user = request.user
 
     new_product = Product(
-        title=title, 
-        content=content,
+        name=name,
+        price=price,
+        description=description,
         category=category,
         thumbnail=thumbnail,
+        quantity=quantity,
+        size=size,
+        rating=rating,
         is_featured=is_featured,
         user=user
     )
