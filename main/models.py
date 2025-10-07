@@ -27,3 +27,16 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class Mahasiswa(models.Model):
+    nama = models.CharField(max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    
+    def __str__(self):
+        return self.nama
+    
+class MataKuliah(models.Model):
+    nama = models.CharField(max_length=255)
+    mahasiswa = models.ManyToManyField(Mahasiswa)
+    
+    def __str__(self):
+        return self.nama_mk
