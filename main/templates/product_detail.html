@@ -105,3 +105,107 @@
   </div>
 </div>
 {% endblock content %}
+
+<script>
+// Configuration
+const NEWS_ID = "{{ product.id }}";
+const NEWS_DETAIL_ENDPOINT = `{% url 'main:show_json_by_id' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', NEWS_ID);
+
+// DOM Elements
+const loadingState = document.getElementById('loading-state');
+const errorState = document.getElementById('error-state');
+const articleContent = document.getElementById('article-content');
+const badgesContainer = document.getElementById('badges-container');
+const articleTitle = document.getElementById('article-title');
+const articleDate = document.getElementById('article-date');
+const articleViews = document.getElementById('article-views');
+const featuredImageContainer = document.getElementById('featured-image-container');
+const featuredImage = document.getElementById('featured-image');
+const articleContentText = document.getElementById('article-content-text');
+const articleAuthor = document.getElementById('article-author');
+
+// Show/hide page sections
+function showState(state) {
+    loadingState.classList.toggle('hidden', state !== 'loading');
+    errorState.classList.toggle('hidden', state !== 'error');
+    articleContent.classList.toggle('hidden', state !== 'ready');
+}
+
+// Get readable category name
+function getCategoryLabel(categoryCode) {
+    const categoryMapping = {
+        transfer: 'Transfer',
+        update: 'Update',
+        exclusive: 'Exclusive',
+        match: 'Match',
+        rumor: 'Rumor',
+        analysis: 'Analysis',
+    };
+    return categoryMapping[categoryCode] || categoryCode;
+}
+
+// Render article content
+function renderArticle(product) {
+    // Set title
+    articleTitle.textContent = product.title;
+    document.title = `${product.title} - Footballpedia`;
+    
+    // Set badges
+    badgesContainer.innerHTML = '';
+    
+    // Category badge
+    const categoryBadge = document.createElement('span');
+    categoryBadge.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-green-600 text-white';
+    categoryBadge.textContent = getCategoryLabel(product.category);
+    badgesContainer.appendChild(categoryBadge);
+    
+    // Featured badge
+    if (product.is_featured) {
+        const featuredBadge = document.createElement('span');
+        featuredBadge.className = 'inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800';
+        featuredBadge.textContent = 'Featured';
+        badgesContainer.appendChild(featuredBadge);
+    }
+    
+    // Set featured image
+    if (product.thumbnail) {
+        featuredImage.src = product.thumbnail;
+        featuredImage.alt = product.title;
+        featuredImageContainer.classList.remove('hidden');
+    } else {
+        featuredImageContainer.classList.add('hidden');
+    }
+    
+    // Set content
+    articleContentText.textContent = product.content;
+    
+    // Set author
+    const authorName = product.user_username || 'Anonymous';
+    articleAuthor.textContent = `Author: ${authorName}`;
+}
+
+// Fetch product detail
+async function loadProductDetail() {
+    try {
+        showState('loading');
+        
+        const response = await fetch(NEWS_DETAIL_ENDPOINT, {
+            headers: { 'Accept': 'application/json' },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch product detail');
+        }
+
+        const productData = await response.json();
+        renderArticle(productData);
+        showState('ready');
+    } catch (error) {
+        console.error('Error loading product detail:', error);
+        showState('error');
+    }
+}
+
+// Initialize page
+loadProductDetail();
+</script>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.core import serializers
 from main.forms import ProductForm
@@ -8,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 import datetime
 
 # Create your views here.
@@ -67,8 +69,23 @@ def show_xml(request):
 
 def show_json(request):
     product_list = Product.objects.all()
-    json_data = serializers.serialize("json", product_list)
-    return HttpResponse(json_data, content_type="application/json")
+    data = [
+        {
+            'id': str(product.id),
+            'name': product.name,
+            'price': product.price,
+            'description': product.description,
+            'thumbnail': product.thumbnail,
+            'category': product.category,
+            'is_featured': product.is_featured,
+            'quantity': product.quantity,
+            'size': product.size,
+            'rating': product.rating,
+            'user_id': product.user.id if product.user else "Anonymous",
+        }
+        for product in product_list
+    ]
+    return JsonResponse(data, safe=False)
 
 def show_xml_by_id(request, product_id):
     try:
@@ -139,3 +156,25 @@ def delete_product(request, id):
     product = get_object_or_404(Product, pk=id)
     product.delete()
     return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    title = request.POST.get("title")
+    content = request.POST.get("content")
+    category = request.POST.get("category")
+    thumbnail = request.POST.get("thumbnail")
+    is_featured = request.POST.get("is_featured") == 'on'  # checkbox handling
+    user = request.user
+
+    new_product = Product(
+        title=title, 
+        content=content,
+        category=category,
+        thumbnail=thumbnail,
+        is_featured=is_featured,
+        user=user
+    )
+    new_product.save()
+
+    return HttpResponse(b"CREATED", status=201)
