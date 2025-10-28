@@ -125,7 +125,8 @@ def edit_product(request, id):
     if form.is_valid() and request.method == 'POST':
         form.save()
         return redirect('main:show_main')
-
+    else :
+        print(form.errors)
     context = {
         'form': form,
         'name': 'Muhammad Faza Al-Banna',
