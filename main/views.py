@@ -7,6 +7,7 @@ from main.models import Product
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -240,3 +241,8 @@ def create_product_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
+
+def get_username(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    return JsonResponse({"username": user.username})
