@@ -19,5 +19,5 @@ urlpatterns = [
     path('create-product-ajax/', add_product_entry_ajax, name='add_product_entry_ajax'),
     path('proxy-image/', proxy_image, name='proxy_image'),
     path('create-product-flutter/', create_product_flutter, name='create_product_flutter'),
-    path('get-username/<int:user_id>/', get_username, name='get_username'),
+    path('get-username/', get_username, name='get_username'),
 ]

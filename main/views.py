@@ -242,7 +242,10 @@ def create_product_flutter(request):
     else:
         return JsonResponse({"status": "error"}, status=401)
 
-def get_username(request, user_id):
+def get_username(request):
+    user_id = request.GET.get('user_id')
     user = get_object_or_404(User, pk=user_id)
 
-    return JsonResponse({"username": user.username})
+    return HttpResponse(
+        user.username, content_type="text/plain"
+    )
