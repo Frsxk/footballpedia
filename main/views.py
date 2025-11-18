@@ -246,6 +246,4 @@ def get_username(request):
     user_id = request.GET.get('user_id')
     user = get_object_or_404(User, pk=user_id)
 
-    return HttpResponse(
-        user.username, content_type="text/plain"
-    )
+    return JsonResponse({'username': user.username})
